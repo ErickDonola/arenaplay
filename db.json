@@ -1,5 +1,5 @@
 {
-  "sports": [
+  "esportes": [
     {
       "id": "1",
       "nome": "Vôlei de Areia",
@@ -37,7 +37,7 @@
       "tag": "Novidade"
     }
   ],
-  "availableTimes": [
+  "horariosDisponiveis": [
     { "id": "1", "horario": "06:00", "periodo": "Manhã", "disponivel": true },
     { "id": "2", "horario": "07:00", "periodo": "Manhã", "disponivel": true },
     { "id": "3", "horario": "08:00", "periodo": "Manhã", "disponivel": false },
@@ -52,7 +52,7 @@
     { "id": "12", "horario": "20:00", "periodo": "Noite", "disponivel": false },
     { "id": "13", "horario": "21:00", "periodo": "Noite", "disponivel": true }
   ],
-  "equipments": [
+  "equipamentos": [
     {
       "id": "1",
       "nome": "Bola de Vôlei",
@@ -82,7 +82,7 @@
       "iconeBiblioteca": "FontAwesome5"
     }
   ],
-  "tournaments": [
+  "campeonatos": [
     {
       "id": "1",
       "nome": "Copa Arena de Vôlei de Areia",

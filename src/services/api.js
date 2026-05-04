@@ -95,26 +95,26 @@ export const apiDelete = async (endpoint) => {
 // ============================================================
 
 export const sportAPI = {
-  getAll: () => apiGet('/sports'),
-  getById: (id) => apiGet(`/sports/${id}`),
+  getAll: () => apiGet('/esportes'),
+  getById: (id) => apiGet(`/esportes/${id}`),
 };
 
 export const timesAPI = {
-  getAll: () => apiGet('/availableTimes'),
-  getById: (id) => apiGet(`/availableTimes/${id}`),
+  getAll: () => apiGet('/horariosDisponiveis'),
+  getById: (id) => apiGet(`/horariosDisponiveis/${id}`),
 };
 
 export const equipmentAPI = {
-  getAll: () => apiGet('/equipments'),
-  getById: (id) => apiGet(`/equipments/${id}`),
+  getAll: () => apiGet('/equipamentos'),
+  getById: (id) => apiGet(`/equipamentos/${id}`),
 };
 
 export const tournamentAPI = {
-  getAll: () => apiGet('/tournaments'),
-  getById: (id) => apiGet(`/tournaments/${id}`),
-  create: (data) => apiPost('/tournaments', data),
-  update: (id, data) => apiPut(`/tournaments/${id}`, data),
-  delete: (id) => apiDelete(`/tournaments/${id}`),
+  getAll: () => apiGet('/campeonatos'),
+  getById: (id) => apiGet(`/campeonatos/${id}`),
+  create: (data) => apiPost('/campeonatos', data),
+  update: (id, data) => apiPut(`/campeonatos/${id}`, data),
+  delete: (id) => apiDelete(`/campeonatos/${id}`),
 };
 
 export const videoAPI = {

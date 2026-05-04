@@ -154,7 +154,7 @@ export default function HomeScreen({ navigation }) {
       // Navega para a aba dentro do TabNavigator
       const parent = navigation.getParent();
       if (parent) {
-        parent.navigate('Home', { screen: servico.tabName });
+        parent.navigate('Início', { screen: servico.tabName });
       } else {
         navigation.navigate(servico.tabName);
       }

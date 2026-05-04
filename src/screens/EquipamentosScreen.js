@@ -84,9 +84,9 @@ export default function EquipamentosScreen({ route, navigation }) {
   const totalEquipamentos = calcularTotalEquipamentos();
   const totalGeral = esporte.precoPorHora + totalEquipamentos;
 
-  // Navega para o Checkout
+  // Navega para o Pagamento
   const handleContinuar = () => {
-    navigation.navigate('Checkout', {
+    navigation.navigate('Pagamento', {
       esporte,
       data,
       horario,
@@ -198,7 +198,7 @@ export default function EquipamentosScreen({ route, navigation }) {
         <TouchableOpacity
           style={styles.botaoPular}
           onPress={() =>
-            navigation.navigate('Checkout', {
+            navigation.navigate('Pagamento', {
               esporte,
               data,
               horario,

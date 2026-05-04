@@ -153,9 +153,9 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-        {/* Menu inferior (Home, Vídeos, Agenda, Perfil) */}
+        {/* Menu inferior (Início, Vídeos, Agenda, Perfil) */}
         <Stack.Screen
-          name="Home"
+          name="Início"
           component={MenuInferior}
           options={{ headerShown: false }}
         />
@@ -172,7 +172,7 @@ export default function App() {
           options={{ title: 'Equipamentos' }}
         />
         <Stack.Screen
-          name="Checkout"
+          name="Pagamento"
           component={CheckoutScreen}
           options={{ title: 'Pagamento' }}
         />
