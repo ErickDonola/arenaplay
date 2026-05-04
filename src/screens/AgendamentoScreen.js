@@ -3,7 +3,7 @@
 // Permite ao usuário escolher data e horário para a quadra.
 // ============================================================
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,12 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-import { availableTimes, sports } from '../data/mockData';
+import { sportAPI, timesAPI } from '../services/api';
 
 // Gera os próximos 7 dias a partir de hoje
 const gerarProximosDias = () => {
@@ -50,6 +51,32 @@ export default function AgendamentoScreen({ route, navigation }) {
   const [dataSelecionada, setDataSelecionada] = useState(null);
   const [horarioSelecionado, setHorarioSelecionado] = useState(null);
 
+  // Estados da API
+  const [sports, setSports] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [sportsData, timesData] = await Promise.all([
+          sportAPI.getAll(),
+          timesAPI.getAll(),
+        ]);
+        setSports(sportsData);
+        setAvailableTimes(timesData);
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        Alert.alert('Erro', 'Falha ao carregar os dados. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
   // Gera os dias apenas uma vez
   const dias = useMemo(() => gerarProximosDias(), []);
 
@@ -61,7 +88,7 @@ export default function AgendamentoScreen({ route, navigation }) {
       grupos[t.periodo].push(t);
     });
     return grupos;
-  }, []);
+  }, [availableTimes]);
 
   // Avança para a tela de equipamentos
   const handleContinuar = () => {
@@ -79,6 +106,14 @@ export default function AgendamentoScreen({ route, navigation }) {
       horario: horarioSelecionado,
     });
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

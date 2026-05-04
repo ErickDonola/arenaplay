@@ -3,7 +3,7 @@
 // Saudação, busca, catálogo de serviços (carousel) e campeonatos.
 // ============================================================
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,11 +13,13 @@ import {
   FlatList,
   Image,
   TextInput,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../theme/colors';
 import { s, fs, SCREEN_WIDTH, effectiveWidth } from '../theme/responsive';
-import { sports, tournaments, mockUser } from '../data/mockData';
+import { sportAPI, tournamentAPI, userAPI } from '../services/api';
 
 const CARD_WIDTH = effectiveWidth * 0.82;
 const CARD_SPACING = s(10);
@@ -96,8 +98,54 @@ const servicos = [
 ];
 
 export default function HomeScreen({ navigation }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // Refs SEMPRE primeiro (antes de qualquer condicional)
   const flatListRef = useRef(null);
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setActiveIndex(viewableItems[0].index ?? 0);
+    }
+  }).current;
+  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+  // Estados
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [sports, setSports] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
+  const [mockUser, setMockUser] = useState({ nome: 'Usuário', id: '1' });
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [sportsData, tournamentsData, usersData] = await Promise.all([
+          sportAPI.getAll(),
+          tournamentAPI.getAll(),
+          userAPI.getAll(),
+        ]);
+        setSports(sportsData);
+        setTournaments(tournamentsData);
+        if (usersData && usersData.length > 0) {
+          setMockUser(usersData[0]);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        Alert.alert('Erro', 'Falha ao carregar os dados. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   // Navega para o serviço selecionado
   const handleServicoPress = (servico) => {
@@ -114,15 +162,6 @@ export default function HomeScreen({ navigation }) {
       navigation.navigate(servico.tela);
     }
   };
-
-  // Callback de scroll para atualizar indicador
-  const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      setActiveIndex(viewableItems[0].index ?? 0);
-    }
-  }).current;
-
-  const viewabilityConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
   // ---- Card do carousel de serviço ----
   const renderServicoCard = ({ item }) => (

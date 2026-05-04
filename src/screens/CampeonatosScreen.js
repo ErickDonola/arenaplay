@@ -3,7 +3,7 @@
 // Lista todos os torneios abertos para inscrição.
 // ============================================================
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,42 @@ import {
   FlatList,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-import { tournaments } from '../data/mockData';
+import { tournamentAPI } from '../services/api';
 
 export default function CampeonatosScreen() {
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadTournaments = async () => {
+      try {
+        const data = await tournamentAPI.getAll();
+        setTournaments(data);
+      } catch (error) {
+        console.error('Erro ao carregar torneios:', error);
+        Alert.alert('Erro', 'Falha ao carregar os torneios. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTournaments();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+
   // Inscrição simulada
   const handleInscrever = (torneio) => {
     const vagasRestantes = torneio.vagas - torneio.vagasPreenchidas;

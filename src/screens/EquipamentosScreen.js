@@ -3,18 +3,20 @@
 // O usuário pode adicionar itens extras à reserva com + e -.
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-import { equipments } from '../data/mockData';
+import { equipmentAPI } from '../services/api';
 
 export default function EquipamentosScreen({ route, navigation }) {
   // Dados vindos da tela anterior (com fallback seguro)
@@ -24,6 +26,25 @@ export default function EquipamentosScreen({ route, navigation }) {
 
   // Estado: quantidade de cada equipamento (mapa id → quantidade)
   const [quantidades, setQuantidades] = useState({});
+  const [equipments, setEquipments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadEquipments = async () => {
+      try {
+        const data = await equipmentAPI.getAll();
+        setEquipments(data);
+      } catch (error) {
+        console.error('Erro ao carregar equipamentos:', error);
+        Alert.alert('Erro', 'Falha ao carregar os equipamentos. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEquipments();
+  }, []);
 
   // Incrementa a quantidade de um equipamento
   const incrementar = (id) => {
@@ -74,6 +95,14 @@ export default function EquipamentosScreen({ route, navigation }) {
       totalGeral,
     });
   };
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

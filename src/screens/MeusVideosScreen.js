@@ -4,7 +4,7 @@
 // Organizados em "pastas" por sessão (agendamento).
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,10 +14,11 @@ import {
   Alert,
   Modal,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-import { videoSessoes } from '../data/mockData';
+import { videoAPI } from '../services/api';
 
 // ============================================================
 // Componente de Pasta — representa uma sessão (agendamento)
@@ -110,6 +111,33 @@ export default function MeusVideosScreen() {
   const [clipAberto, setClipAberto] = useState(null);
   const [sessaoAberta, setSessaoAberta] = useState(null);
   const [baixando, setBaixando] = useState(false);
+  const [videoSessoes, setVideoSessoes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadVideos = async () => {
+      try {
+        const data = await videoAPI.getAll();
+        setVideoSessoes(data);
+      } catch (error) {
+        console.error('Erro ao carregar vídeos:', error);
+        Alert.alert('Erro', 'Falha ao carregar os vídeos. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVideos();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   const handleBaixar = () => {
     if (baixando) return;

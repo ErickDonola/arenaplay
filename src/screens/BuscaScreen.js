@@ -3,7 +3,7 @@
 // Tela de Busca: permite pesquisar quadras por esporte ou nome.
 // ============================================================
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,13 +11,42 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-import { sports } from '../data/mockData';
+import { sportAPI } from '../services/api';
 
 export default function BuscaScreen({ navigation }) {
   const [query, setQuery] = useState('');
+  const [sports, setSports] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Busca dados da API
+  useEffect(() => {
+    const loadSports = async () => {
+      try {
+        const data = await sportAPI.getAll();
+        setSports(data);
+      } catch (error) {
+        console.error('Erro ao carregar esportes:', error);
+        Alert.alert('Erro', 'Falha ao carregar os esportes. Verifique sua conexão.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSports();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   // Filtra os esportes pelo texto digitado
   const resultados = sports.filter((s) =>
