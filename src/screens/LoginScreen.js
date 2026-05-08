@@ -32,8 +32,8 @@ export default function LoginScreen({ navigation }) {
       Alert.alert('Atenção', 'Por favor, preencha o e-mail e a senha.');
       return;
     }
-    // Navega para a Home sem validação real (projeto acadêmico)
-    navigation.replace('Home');
+    // Navega para a Início sem validação real (projeto acadêmico)
+    navigation.replace('Início');
   };
 
   return (
@@ -91,6 +91,14 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
           <Text style={styles.botaoEntrarTexto}>Entrar</Text>
         </TouchableOpacity>
+
+        {/* ---- Link para Criar Conta ---- */}
+        <View style={styles.linkConta}>
+          <Text style={styles.linkContaTexto}>Não tem uma conta? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <Text style={styles.linkContaDestaque}>Cadastre-se</Text>
+          </TouchableOpacity>
+        </View>
 
         {/* ---- Rodapé ---- */}
         <Text style={styles.rodape}>
@@ -188,6 +196,23 @@ const styles = StyleSheet.create({
   linkTexto: {
     color: Colors.secondary,
     fontSize: fs(12),
+  },
+
+  // Link para criar conta
+  linkConta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: s(16),
+  },
+  linkContaTexto: {
+    color: Colors.textMedium,
+    fontSize: fs(12),
+  },
+  linkContaDestaque: {
+    color: Colors.primary,
+    fontSize: fs(12),
+    fontWeight: 'bold',
   },
 
   // Rodapé

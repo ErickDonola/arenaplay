@@ -15,6 +15,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 // ---- Telas do fluxo de agendamento (Stack) ----
 import LoginScreen from './src/screens/LoginScreen';
+import SignupScreen from './src/screens/SignupScreen';
 import AgendamentoScreen from './src/screens/AgendamentoScreen';
 import EquipamentosScreen from './src/screens/EquipamentosScreen';
 import CheckoutScreen from './src/screens/CheckoutScreen';
@@ -150,6 +151,13 @@ export default function App() {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+
+        {/* Signup — sem header */}
+        <Stack.Screen
+          name="Signup"
+          component={SignupScreen}
           options={{ headerShown: false }}
         />
 

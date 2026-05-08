@@ -38,19 +38,84 @@
     }
   ],
   "horariosDisponiveis": [
-    { "id": "1", "horario": "06:00", "periodo": "Manhã", "disponivel": true },
-    { "id": "2", "horario": "07:00", "periodo": "Manhã", "disponivel": true },
-    { "id": "3", "horario": "08:00", "periodo": "Manhã", "disponivel": false },
-    { "id": "4", "horario": "09:00", "periodo": "Manhã", "disponivel": true },
-    { "id": "5", "horario": "10:00", "periodo": "Manhã", "disponivel": true },
-    { "id": "6", "horario": "14:00", "periodo": "Tarde", "disponivel": true },
-    { "id": "7", "horario": "15:00", "periodo": "Tarde", "disponivel": false },
-    { "id": "8", "horario": "16:00", "periodo": "Tarde", "disponivel": true },
-    { "id": "9", "horario": "17:00", "periodo": "Tarde", "disponivel": true },
-    { "id": "10", "horario": "18:00", "periodo": "Noite", "disponivel": true },
-    { "id": "11", "horario": "19:00", "periodo": "Noite", "disponivel": true },
-    { "id": "12", "horario": "20:00", "periodo": "Noite", "disponivel": false },
-    { "id": "13", "horario": "21:00", "periodo": "Noite", "disponivel": true }
+    {
+      "id": "1",
+      "horario": "06:00",
+      "periodo": "Manhã",
+      "disponivel": true
+    },
+    {
+      "id": "2",
+      "horario": "07:00",
+      "periodo": "Manhã",
+      "disponivel": true
+    },
+    {
+      "id": "3",
+      "horario": "08:00",
+      "periodo": "Manhã",
+      "disponivel": false
+    },
+    {
+      "id": "4",
+      "horario": "09:00",
+      "periodo": "Manhã",
+      "disponivel": true
+    },
+    {
+      "id": "5",
+      "horario": "10:00",
+      "periodo": "Manhã",
+      "disponivel": true
+    },
+    {
+      "id": "6",
+      "horario": "14:00",
+      "periodo": "Tarde",
+      "disponivel": true
+    },
+    {
+      "id": "7",
+      "horario": "15:00",
+      "periodo": "Tarde",
+      "disponivel": false
+    },
+    {
+      "id": "8",
+      "horario": "16:00",
+      "periodo": "Tarde",
+      "disponivel": true
+    },
+    {
+      "id": "9",
+      "horario": "17:00",
+      "periodo": "Tarde",
+      "disponivel": true
+    },
+    {
+      "id": "10",
+      "horario": "18:00",
+      "periodo": "Noite",
+      "disponivel": true
+    },
+    {
+      "id": "11",
+      "horario": "19:00",
+      "periodo": "Noite",
+      "disponivel": true
+    },
+    {
+      "id": "12",
+      "horario": "20:00",
+      "periodo": "Noite",
+      "disponivel": false
+    },
+    {
+      "id": "13",
+      "horario": "21:00",
+      "periodo": "Noite",
+      "disponivel": true
+    }
   ],
   "equipamentos": [
     {
@@ -146,10 +211,30 @@
       "quadra": "Quadra 2",
       "cor": "#4CB8D4",
       "clips": [
-        { "id": "c1", "titulo": "Smash incrível! 💥", "duracao": "28 seg", "disponivel": true },
-        { "id": "c2", "titulo": "Defesa no limite 🏃", "duracao": "15 seg", "disponivel": true },
-        { "id": "c3", "titulo": "Rally longo com virada", "duracao": "30 seg", "disponivel": true },
-        { "id": "c4", "titulo": "Voleio na linha! 🎯", "duracao": "10 seg", "disponivel": false }
+        {
+          "id": "c1",
+          "titulo": "Smash incrível! 💥",
+          "duracao": "28 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c2",
+          "titulo": "Defesa no limite 🏃",
+          "duracao": "15 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c3",
+          "titulo": "Rally longo com virada",
+          "duracao": "30 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c4",
+          "titulo": "Voleio na linha! 🎯",
+          "duracao": "10 seg",
+          "disponivel": false
+        }
       ]
     },
     {
@@ -161,9 +246,24 @@
       "quadra": "Quadra Principal",
       "cor": "#148866",
       "clips": [
-        { "id": "c5", "titulo": "Cortada perfeita! 💪", "duracao": "12 seg", "disponivel": true },
-        { "id": "c6", "titulo": "Bloqueio duplo na rede", "duracao": "18 seg", "disponivel": true },
-        { "id": "c7", "titulo": "Saque bomba da linha de fundo", "duracao": "9 seg", "disponivel": true }
+        {
+          "id": "c5",
+          "titulo": "Cortada perfeita! 💪",
+          "duracao": "12 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c6",
+          "titulo": "Bloqueio duplo na rede",
+          "duracao": "18 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c7",
+          "titulo": "Saque bomba da linha de fundo",
+          "duracao": "9 seg",
+          "disponivel": true
+        }
       ]
     },
     {
@@ -175,8 +275,18 @@
       "quadra": "Quadra 3",
       "cor": "#4CB8D4",
       "clips": [
-        { "id": "c8", "titulo": "Troca de bolas no fundo 🔄", "duracao": "30 seg", "disponivel": true },
-        { "id": "c9", "titulo": "Drop shot surpresa!", "duracao": "14 seg", "disponivel": true }
+        {
+          "id": "c8",
+          "titulo": "Troca de bolas no fundo 🔄",
+          "duracao": "30 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c9",
+          "titulo": "Drop shot surpresa!",
+          "duracao": "14 seg",
+          "disponivel": true
+        }
       ]
     },
     {
@@ -188,10 +298,30 @@
       "quadra": "Quadra 1",
       "cor": "#E8A838",
       "clips": [
-        { "id": "c10", "titulo": "Jogada acrobática 🤸", "duracao": "22 seg", "disponivel": true },
-        { "id": "c11", "titulo": "Bicicleta no estilo! 🔥", "duracao": "19 seg", "disponivel": true },
-        { "id": "c12", "titulo": "Ponto do campeonato 🏆", "duracao": "30 seg", "disponivel": true },
-        { "id": "c13", "titulo": "Manchete salva o ponto", "duracao": "11 seg", "disponivel": true }
+        {
+          "id": "c10",
+          "titulo": "Jogada acrobática 🤸",
+          "duracao": "22 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c11",
+          "titulo": "Bicicleta no estilo! 🔥",
+          "duracao": "19 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c12",
+          "titulo": "Ponto do campeonato 🏆",
+          "duracao": "30 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c13",
+          "titulo": "Manchete salva o ponto",
+          "duracao": "11 seg",
+          "disponivel": true
+        }
       ]
     },
     {
@@ -203,8 +333,18 @@
       "quadra": "Quadra 2",
       "cor": "#148866",
       "clips": [
-        { "id": "c14", "titulo": "Levantamento preciso 🎯", "duracao": "8 seg", "disponivel": true },
-        { "id": "c15", "titulo": "Mergulho espetacular! 🌊", "duracao": "16 seg", "disponivel": true }
+        {
+          "id": "c14",
+          "titulo": "Levantamento preciso 🎯",
+          "duracao": "8 seg",
+          "disponivel": true
+        },
+        {
+          "id": "c15",
+          "titulo": "Mergulho espetacular! 🌊",
+          "duracao": "16 seg",
+          "disponivel": true
+        }
       ]
     }
   ],
@@ -214,7 +354,72 @@
       "nome": "Luciano",
       "email": "luciano@email.com",
       "avatar": null
+    },
+    {
+      "email": "joao@test.com",
+      "nome": "Jo�o",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T16:14:43.3976252-03:00",
+      "senha": "123456",
+      "id": "6RqQ1STmldA"
+    },
+    {
+      "email": "marina@test.com",
+      "nome": "Marina",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T16:20:00.000Z",
+      "senha": "senha123",
+      "id": "tfs_LJ-QV08"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:16:47.459Z",
+      "id": "4u6qWT9ujDs"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:16:49.251Z",
+      "id": "4u-6MQo-wfo"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:18:06.373Z",
+      "id": "aN0OFQVZegA"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:19:12.225Z",
+      "id": "GjVWZSdEkBQ"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:20:33.231Z",
+      "id": "lw4rquuL-80"
+    },
+    {
+      "nome": "luciano",
+      "email": "luciano@gmail.com",
+      "senha": "admin123",
+      "avatar": null,
+      "dataCriacao": "2026-05-08T19:21:09.472Z",
+      "id": "yA8vrqyLRJY"
     }
   ],
-  "agendamentos": []
+  "agendamentos": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
