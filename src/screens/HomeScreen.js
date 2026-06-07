@@ -249,13 +249,6 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.saudacao}>Olá, {mockUser.nome}! 👋</Text>
           <Text style={styles.subtitulo}>Pronto para jogar na areia?</Text>
         </View>
-        <TouchableOpacity 
-          style={styles.botaoNovoUsuario}
-          onPress={() => navigation.navigate('Signup')}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.botaoNovoUsuarioTexto}>+ Novo</Text>
-        </TouchableOpacity>
       </View>
 
       {/* ---- Barra de Busca ---- */}
@@ -402,21 +395,6 @@ const styles = StyleSheet.create({
     fontSize: fs(12),
     color: Colors.white + 'CC',
     marginTop: s(3),
-  },
-
-  // Botão novo usuário no header
-  botaoNovoUsuario: {
-    backgroundColor: 'rgba(255, 255, 255, 0.25)',
-    paddingHorizontal: s(14),
-    paddingVertical: s(8),
-    borderRadius: s(12),
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.4)',
-  },
-  botaoNovoUsuarioTexto: {
-    color: Colors.white,
-    fontSize: fs(12),
-    fontWeight: '600',
   },
 
   // Barra de busca

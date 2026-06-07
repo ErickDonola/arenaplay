@@ -29,6 +29,8 @@ export default function SignupScreen({ navigation }) {
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
   const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState('');
+  const [sucesso, setSucesso] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
@@ -40,88 +42,33 @@ export default function SignupScreen({ navigation }) {
 
   // Função para criar novo usuário
   const handleCadastro = async () => {
-    // Validações
-    if (!nome.trim()) {
-      Alert.alert('Atenção', 'Por favor, informe seu nome.');
-      return;
-    }
+    setErro('');
 
-    if (!email.trim()) {
-      Alert.alert('Atenção', 'Por favor, informe seu e-mail.');
-      return;
-    }
-
-    if (!validarEmail(email)) {
-      Alert.alert('Atenção', 'Por favor, informe um e-mail válido.');
-      return;
-    }
-
-    if (!senha.trim()) {
-      Alert.alert('Atenção', 'Por favor, informe uma senha.');
-      return;
-    }
-
-    if (senha.length < 6) {
-      Alert.alert('Atenção', 'A senha deve ter no mínimo 6 caracteres.');
-      return;
-    }
-
-    if (senha !== confirmarSenha) {
-      Alert.alert('Atenção', 'As senhas não conferem.');
-      return;
-    }
+    if (!nome.trim()) return setErro('Por favor, informe seu nome.');
+    if (!email.trim()) return setErro('Por favor, informe seu e-mail.');
+    if (!validarEmail(email)) return setErro('Por favor, informe um e-mail válido.');
+    if (!senha.trim()) return setErro('Por favor, informe uma senha.');
+    if (senha.length < 6) return setErro('A senha deve ter no mínimo 6 caracteres.');
+    if (senha !== confirmarSenha) return setErro('As senhas não conferem.');
 
     try {
       setLoading(true);
 
-      const dadosUsuario = {
+      await userAPI.create({
         nome: nome.trim(),
         email: email.trim().toLowerCase(),
         senha: senha,
         avatar: null,
         dataCriacao: new Date().toISOString(),
-      };
-
-      const novoUsuario = await userAPI.create(dadosUsuario);
+      });
 
       setLoading(false);
+      setSucesso(true);
 
-      Alert.alert('Sucesso! 🎉', 'Seu cadastro foi realizado. Bem-vindo à Arena Play!', [
-        {
-          text: 'Entrar',
-          onPress: () => {
-            handleNavegacao();
-          },
-        },
-      ]);
-
-      // Navega automaticamente em 2 segundos como fallback
-      setTimeout(() => {
-        handleNavegacao();
-      }, 2000);
+      setTimeout(() => navigation.navigate('Login'), 2500);
     } catch (error) {
       setLoading(false);
-
-      Alert.alert(
-        'Erro ao criar conta',
-        `${error.message || 'Não foi possível criar o usuário. Tente novamente.'}`
-      );
-    }
-  };
-
-  // Função auxiliar de navegação
-  const handleNavegacao = () => {
-    try {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Início' }],
-      });
-    } catch (navError) {
-      try {
-        navigation.navigate('Início');
-      } catch (navError2) {
-        // Fallback silencioso
-      }
+      setErro(error.message || 'Não foi possível criar o usuário. Tente novamente.');
     }
   };
 
@@ -237,11 +184,27 @@ export default function SignupScreen({ navigation }) {
           </View>
         </View>
 
+        {/* ---- Mensagem de erro ---- */}
+        {!!erro && (
+          <View style={styles.bannerErro}>
+            <Text style={styles.bannerErroTexto}>{erro}</Text>
+          </View>
+        )}
+
+        {/* ---- Mensagem de sucesso ---- */}
+        {sucesso && (
+          <View style={styles.bannerSucesso}>
+            <Text style={styles.bannerSucessoTexto}>
+              Cadastro realizado! Redirecionando para o login...
+            </Text>
+          </View>
+        )}
+
         {/* ---- Botão Cadastrar ---- */}
         <TouchableOpacity
-          style={[styles.botaoCadastrar, loading && styles.botaoDesabilitado]}
+          style={[styles.botaoCadastrar, (loading || sucesso) && styles.botaoDesabilitado]}
           onPress={handleCadastro}
-          disabled={loading}
+          disabled={loading || sucesso}
         >
           {loading ? (
             <ActivityIndicator color={Colors.white} size="small" />
@@ -392,6 +355,33 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     fontSize: fs(12),
     fontWeight: 'bold',
+  },
+
+  // Banners de feedback
+  bannerErro: {
+    backgroundColor: '#FEE2E2',
+    borderRadius: s(8),
+    paddingHorizontal: s(14),
+    paddingVertical: s(10),
+    marginBottom: s(10),
+  },
+  bannerErroTexto: {
+    color: '#B91C1C',
+    fontSize: fs(13),
+    textAlign: 'center',
+  },
+  bannerSucesso: {
+    backgroundColor: '#DCFCE7',
+    borderRadius: s(8),
+    paddingHorizontal: s(14),
+    paddingVertical: s(10),
+    marginBottom: s(10),
+  },
+  bannerSucessoTexto: {
+    color: '#15803D',
+    fontSize: fs(13),
+    textAlign: 'center',
+    fontWeight: '600',
   },
 
   // Rodapé

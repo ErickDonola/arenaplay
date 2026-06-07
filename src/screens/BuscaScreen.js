@@ -79,7 +79,7 @@ export default function BuscaScreen({ navigation }) {
             style={styles.card}
             onPress={() => navigation.navigate('Agendamento', { esporte: item })}
           >
-            <Text style={styles.cardIcone}>{item.icone}</Text>
+            <Text style={styles.cardIcone}>{item.emoji}</Text>
             <View style={styles.cardInfo}>
               <Text style={styles.cardNome}>{item.nome}</Text>
               <Text style={styles.cardPreco}>R$ {item.precoPorHora},00 / hora</Text>

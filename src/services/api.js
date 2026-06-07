@@ -40,10 +40,11 @@ export const apiPost = async (endpoint, data) => {
       },
       body: JSON.stringify(data),
     });
+    const json = await response.json();
     if (!response.ok) {
-      throw new Error(`Erro HTTP: ${response.status}`);
+      throw new Error(json.error || `Erro HTTP: ${response.status}`);
     }
-    return await response.json();
+    return json;
   } catch (error) {
     console.error(`[API POST] Erro ao criar em ${endpoint}:`, error);
     throw error;
@@ -130,6 +131,7 @@ export const userAPI = {
   getById: (id) => apiGet(`/usuarios/${id}`),
   create: (data) => apiPost('/usuarios', data),
   update: (id, data) => apiPut(`/usuarios/${id}`, data),
+  login: (credenciais) => apiPost('/login', credenciais),
 };
 
 export const agendamentoAPI = {

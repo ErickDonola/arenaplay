@@ -1,7 +1,7 @@
 // ============================================================
 // Tela de Login — Arena Play Quadras
 // Tela inicial do app com campos de e-mail e senha.
-// A autenticação é simulada (não há validação real).
+// A autenticação é real, validada contra o backend (PostgreSQL).
 // ============================================================
 
 import React, { useState } from 'react';
@@ -16,24 +16,38 @@ import {
   Platform,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
+import { userAPI } from '../services/api';
 
 export default function LoginScreen({ navigation }) {
   // Estados dos campos de entrada
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // Função chamada ao pressionar "Entrar"
-  // Em um app real, aqui seria feita a autenticação com o backend
-  const handleLogin = () => {
+  // Valida as credenciais no backend (PostgreSQL)
+  const handleLogin = async () => {
     if (!email.trim() || !senha.trim()) {
       Alert.alert('Atenção', 'Por favor, preencha o e-mail e a senha.');
       return;
     }
-    // Navega para a Início sem validação real (projeto acadêmico)
-    navigation.replace('Início');
+
+    try {
+      setLoading(true);
+      await userAPI.login({
+        email: email.trim().toLowerCase(),
+        senha: senha,
+      });
+      setLoading(false);
+      navigation.replace('Início');
+    } catch (error) {
+      setLoading(false);
+      Alert.alert('Erro ao entrar', 'E-mail ou senha inválidos.');
+    }
   };
 
   return (
@@ -88,8 +102,16 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         {/* ---- Botão Entrar ---- */}
-        <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
-          <Text style={styles.botaoEntrarTexto}>Entrar</Text>
+        <TouchableOpacity
+          style={[styles.botaoEntrar, loading && styles.botaoDesabilitado]}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color={Colors.white} size="small" />
+          ) : (
+            <Text style={styles.botaoEntrarTexto}>Entrar</Text>
+          )}
         </TouchableOpacity>
 
         {/* ---- Link para Criar Conta ---- */}
@@ -181,6 +203,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 6,
     elevation: 4,
+  },
+  botaoDesabilitado: {
+    opacity: 0.6,
   },
   botaoEntrarTexto: {
     color: Colors.white,
