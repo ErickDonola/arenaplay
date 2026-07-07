@@ -97,7 +97,7 @@ const servicos = [
   },
 ];
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ route, navigation }) {
   // Refs SEMPRE primeiro (antes de qualquer condicional)
   const flatListRef = useRef(null);
   const onViewableItemsChanged = useRef(({ viewableItems }) => {
@@ -111,23 +111,22 @@ export default function HomeScreen({ navigation }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [sports, setSports] = useState([]);
   const [tournaments, setTournaments] = useState([]);
-  const [mockUser, setMockUser] = useState({ nome: 'Usuário', id: '1' });
+  // Pega o usuário que fez o login globalmente
+  const usuarioLogado = global.usuarioLogado || { nome: 'Visitante', id: '0' };
+  const [mockUser, setMockUser] = useState(usuarioLogado);
   const [loading, setLoading] = useState(true);
 
   // Busca dados da API
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [sportsData, tournamentsData, usersData] = await Promise.all([
+        // Removemos a busca de usuários daqui, pois agora a Home recebe os dados do Login
+        const [sportsData, tournamentsData] = await Promise.all([
           sportAPI.getAll(),
           tournamentAPI.getAll(),
-          userAPI.getAll(),
         ]);
         setSports(sportsData);
         setTournaments(tournamentsData);
-        if (usersData && usersData.length > 0) {
-          setMockUser(usersData[0]);
-        }
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
         Alert.alert('Erro', 'Falha ao carregar os dados. Verifique sua conexão.');

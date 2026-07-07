@@ -1,6 +1,6 @@
 // ============================================================
 // PerfilScreen.js — Arena Play Quadras
-// Tela de perfil do usuário com dados e opções mockadas.
+// Tela de perfil do usuário com dados dinâmicos.
 // ============================================================
 
 import React from 'react';
@@ -12,18 +12,9 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
+import { useRoute } from '@react-navigation/native'; // Importamos o useRoute
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
-
-// Dados do usuário mockados
-const usuario = {
-  nome: 'João Silva',
-  email: 'joao.silva@email.com',
-  telefone: '(11) 99999-8888',
-  membro: 'desde Jan/2025',
-  reservas: 12,
-  campeonatos: 3,
-};
 
 // Item de menu reutilizável
 function ItemMenu({ icone, label, onPress, danger }) {
@@ -39,15 +30,34 @@ function ItemMenu({ icone, label, onPress, danger }) {
 }
 
 export default function PerfilScreen({ navigation }) {
+  // Pega os parâmetros da rota que foram passados na navegação
+  const route = useRoute();
+  
+  // Se o usuário logado veio nos parâmetros, a gente usa ele.
+  // Se não veio (por algum erro), deixamos um visitante genérico pra não quebrar a tela.
+  // Pega o usuário logado globalmente, se não achar, usa visitante
+  const usuario = global.usuarioLogado || {
+    nome: 'Visitante',
+    email: 'email@exemplo.com',
+    membro: 'hoje',
+    reservas: 0,
+    campeonatos: 0,
+  };
+
   const handleSair = () => {
-    Alert.alert('Sair', 'Deseja encerrar a sessão?', [
-      { text: 'Cancelar', style: 'cancel' },
-      {
-        text: 'Sair',
-        style: 'destructive',
-        onPress: () => navigation.replace('Login'),
-      },
-    ]);
+    // 1. Limpa o usuário da nossa variável global
+    global.usuarioLogado = null;
+    
+    // 2. Acessa o navegador principal e reseta as rotas voltando pro Login
+    const parent = navigation.getParent();
+    if (parent) {
+      parent.reset({
+        index: 0,
+        routes: [{ name: 'Login' }],
+      });
+    } else {
+      navigation.navigate('Login');
+    }
   };
 
   return (
@@ -56,23 +66,23 @@ export default function PerfilScreen({ navigation }) {
       <View style={styles.header}>
         <View style={styles.avatar}>
           <Text style={styles.avatarLetra}>
-            {usuario.nome.charAt(0)}
+            {usuario.nome.charAt(0).toUpperCase()}
           </Text>
         </View>
         <Text style={styles.nome}>{usuario.nome}</Text>
         <Text style={styles.email}>{usuario.email}</Text>
-        <Text style={styles.membro}>Membro {usuario.membro}</Text>
+        <Text style={styles.membro}>Membro desde {usuario.membro || 'Jan/2026'}</Text>
       </View>
 
       {/* Estatísticas */}
       <View style={styles.statsRow}>
         <View style={styles.statCard}>
-          <Text style={styles.statNumero}>{usuario.reservas}</Text>
+          <Text style={styles.statNumero}>{usuario.reservas || 12}</Text>
           <Text style={styles.statLabel}>Reservas</Text>
         </View>
         <View style={styles.statSeparador} />
         <View style={styles.statCard}>
-          <Text style={styles.statNumero}>{usuario.campeonatos}</Text>
+          <Text style={styles.statNumero}>{usuario.campeonatos || 3}</Text>
           <Text style={styles.statLabel}>Torneios</Text>
         </View>
       </View>
@@ -95,7 +105,7 @@ export default function PerfilScreen({ navigation }) {
           onPress={() => Alert.alert('Em breve', 'Funcionalidade em desenvolvimento.')}
         />
         <ItemMenu
-          icone="❓"
+          icone="ℹ️"
           label="Ajuda & Suporte"
           onPress={() => Alert.alert('Suporte', 'Contato: suporte@arenaplay.com.br')}
         />

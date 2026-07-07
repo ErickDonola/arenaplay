@@ -15,6 +15,7 @@
     "@react-navigation/native-stack": "^7.14.10",
     "cors": "^2.8.6",
     "expo": "~54.0.33",
+    "expo-location": "~19.0.8",
     "expo-status-bar": "~3.0.9",
     "express": "^5.2.1",
     "pg": "^8.21.0",

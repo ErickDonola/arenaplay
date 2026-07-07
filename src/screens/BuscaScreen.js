@@ -14,6 +14,7 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import * as Location from 'expo-location'; // IMPORT NOVO DA GEOLOCALIZAÇÃO
 import Colors from '../theme/colors';
 import { s, fs } from '../theme/responsive';
 import { sportAPI } from '../services/api';
@@ -22,8 +23,13 @@ export default function BuscaScreen({ navigation }) {
   const [query, setQuery] = useState('');
   const [sports, setSports] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Estados da Geolocalização
+  const [location, setLocation] = useState(null);
+  const [locError, setLocError] = useState(null);
+  const [locLoading, setLocLoading] = useState(true);
 
-  // Busca dados da API
+  // Busca dados da API e Localização simultaneamente
   useEffect(() => {
     const loadSports = async () => {
       try {
@@ -37,7 +43,24 @@ export default function BuscaScreen({ navigation }) {
       }
     };
 
+    const loadLocation = async () => {
+      try {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setLocError('Permissão negada');
+          return;
+        }
+        let currentLocation = await Location.getCurrentPositionAsync({});
+        setLocation(currentLocation);
+      } catch (error) {
+        setLocError('Erro ao buscar localização');
+      } finally {
+        setLocLoading(false);
+      }
+    };
+
     loadSports();
+    loadLocation(); // Chama a função de localização ao abrir a tela
   }, []);
 
   if (loading) {
@@ -65,6 +88,20 @@ export default function BuscaScreen({ navigation }) {
           value={query}
           onChangeText={setQuery}
         />
+      </View>
+
+      {/* CARD DE GEOLOCALIZAÇÃO IMPLEMENTADO AQUI */}
+      <View style={styles.locCard}>
+        <Text style={styles.locTitle}>📍 Minha Localização</Text>
+        {locLoading ? (
+          <ActivityIndicator size="small" color={Colors.primary} style={{ marginTop: s(4) }} />
+        ) : locError ? (
+          <Text style={styles.locTextError}>{locError}</Text>
+        ) : location ? (
+          <Text style={styles.locText}>
+            Lat: {location.coords.latitude.toFixed(5)} | Lng: {location.coords.longitude.toFixed(5)}
+          </Text>
+        ) : null}
       </View>
 
       {/* Lista de resultados */}
@@ -105,7 +142,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: s(10),
     paddingHorizontal: s(12),
-    marginBottom: s(16),
+    marginBottom: s(10), // Ajustado para dar espaço ao card de loc
     elevation: 2,
     shadowColor: '#000',
     shadowOpacity: 0.08,
@@ -122,6 +159,34 @@ const styles = StyleSheet.create({
     fontSize: fs(13),
     color: Colors.textDark,
   },
+  // ESTILOS NOVOS PARA A GEOLOCALIZAÇÃO
+  locCard: {
+    backgroundColor: Colors.white,
+    borderRadius: s(10),
+    padding: s(12),
+    marginBottom: s(16),
+    alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  locTitle: {
+    fontSize: fs(13),
+    fontWeight: 'bold',
+    color: Colors.textDark,
+    marginBottom: s(4),
+  },
+  locText: {
+    fontSize: fs(12),
+    color: Colors.primary,
+  },
+  locTextError: {
+    fontSize: fs(12),
+    color: 'red',
+  },
+  // FIM ESTILOS GEOLOCALIZAÇÃO
   vazio: {
     textAlign: 'center',
     marginTop: s(32),

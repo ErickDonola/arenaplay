@@ -406,6 +406,22 @@
       "email": "teste.final@email.com",
       "senha": "123456",
       "id": "6zjMA0FjC8I"
+    },
+    {
+      "nome": "Erick",
+      "email": "erickd.goncalves04@gmail.com",
+      "senha": "JVG$2er.lu04",
+      "avatar": null,
+      "dataCriacao": "2026-07-07T14:03:04.726Z",
+      "id": "3Dm362A_rLw"
+    },
+    {
+      "nome": "Jv",
+      "email": "erickd.goncalves17@gmail.com",
+      "senha": "JVG12345",
+      "avatar": null,
+      "dataCriacao": "2026-07-07T14:43:04.883Z",
+      "id": "d39aGrk5aLk"
     }
   ],
   "agendamentos": [],
